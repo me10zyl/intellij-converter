@@ -1,8 +1,8 @@
 <idea-plugin version="2">
   <id>com.github.me10zyl.converter</id>
   <name>Converter</name>
-  <version>1.0</version>
-  <vendor email="me10zyl@qq.com" url="https://www.github.com/me10zyl/intellij-converter">YourCompany</vendor>
+  <version>1.1</version>
+  <vendor email="me10zyl@qq.com" url="https://www.github.com/me10zyl/intellij-converter">me10zyl</vendor>
 
   <description><![CDATA[
       Converter Code Generater!<br>
