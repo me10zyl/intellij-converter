@@ -1,17 +1,17 @@
 <idea-plugin version="2">
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
+  <id>com.github.me10zyl.converter</id>
+  <name>Converter</name>
   <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="me10zyl@qq.com" url="https://www.github.com/me10zyl/intellij-converter">YourCompany</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Converter Code Generater!<br>
+      By using this tool, you can generate converter code more easily!
+      <em>Any advice mailing to me or put an issue on github</em>
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+      No Changes.<br>
     ]]>
   </change-notes>
 
