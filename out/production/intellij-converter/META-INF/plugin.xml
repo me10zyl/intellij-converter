@@ -1,12 +1,27 @@
 <idea-plugin version="2">
   <id>com.github.me10zyl.converter</id>
   <name>Converter</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="me10zyl@qq.com" url="https://www.github.com/me10zyl/intellij-converter">me10zyl</vendor>
 
   <description><![CDATA[
-      Converter Code Generater!<br>
-      By using this tool, you can generate converter code more easily!
+      Converter Code Generator!<br>
+      By using this tool, you can generate converter code more easily!<br>
+
+
+      Converter code example：<br>
+      <pre>
+      public TestSchema convert(TestModel source){
+           TestSchema target = new TestSchema();
+           target.setProp1(source.getProp1());
+           return target;
+      }
+      </pre>
+
+      <img width="500px"  src="https://github.com/me10zyl/intellij-converter/raw/master/1.png" /><br/>
+      <img width="500px"  src="https://github.com/me10zyl/intellij-converter/raw/master/2.png" /><br/>
+      <img width="500px"  src="https://github.com/me10zyl/intellij-converter/raw/master/3.png" /><br/>
+
       <em>Any advice mailing to me or put an issue on github</em>
     ]]></description>
 
@@ -20,9 +35,8 @@
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
+  <depends>com.intellij.modules.java</depends>
+  <depends>com.intellij.modules.androidstudio</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
