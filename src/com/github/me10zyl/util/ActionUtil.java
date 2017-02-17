@@ -12,8 +12,6 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.ui.content.Content;
-import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -72,6 +70,9 @@ public class ActionUtil {
 
 
         for(PsiField p : allFields){
+            if(p.hasModifierProperty("final")){
+                continue;
+            }
             ClassProperty classProp = new ClassProperty(p.getName());
             classProp.setPsiField(p);
             classProp.setPsiClass(clazz);
@@ -104,11 +105,11 @@ public class ActionUtil {
         }
         title = "(" + leftName + " → " + rightName + ")";
         tw.setTitle(title);
-        gui.updateData();
+        gui.initWorld();
         tw.show(null);
     }
 
-    private static void  clearNullProp(List<ClassProperty> list){
+    public static void  clearNullProp(List<ClassProperty> list){
         List<ClassProperty> deleting = new ArrayList<>();
         for(ClassProperty c : list){
             if(c.isPlaceHolder()){
@@ -121,7 +122,7 @@ public class ActionUtil {
     }
 
     @NotNull
-    private static ClassProperty newNullProp() {
+    public static ClassProperty newNullProp() {
         ClassProperty classProp = new ClassProperty("*");
         classProp.setPsiField(null);
         classProp.setPsiClass(null);

@@ -17,9 +17,19 @@ public class Converter {
         this.source = props1;
     }
 
+    private int getSizeOfProp(List<ClassProperty> list){
+        int size = 0;
+        for(ClassProperty item : list){
+            if(!item.isPlaceHolder()){
+                size++;
+            }
+        }
+        return size;
+    }
+
     public String generate(){
         StringBuilder sb = new StringBuilder();
-        if(target.size() > 0 && source.size() > 0){
+        if(getSizeOfProp(target) > 0 && getSizeOfProp(source) > 0){
             String targetClass = target.get(0).getPsiClass().getName();
             String sourceClass = source.get(0).getPsiClass().getName();
             sb.append(String.format("public %s convert(%s source){\n\t%s target = new %s();\n", targetClass, sourceClass, targetClass, targetClass));
@@ -33,9 +43,11 @@ public class Converter {
                     sourceProp = source.get(i);
                 }
                 if(sourceProp.isPlaceHolder()){
-                    continue;
+                    sb.append(String.format("\ttarget.set%s(null);\n", targetProp.getNameUpperFirst()));
+                }else{
+                    sb.append(String.format("\ttarget.set%s(source.get%s());\n", targetProp.getNameUpperFirst(), sourceProp.getNameUpperFirst()));
                 }
-                sb.append(String.format("\ttarget.set%s(source.get%s());\n", targetProp.getNameUpperFirst(), sourceProp.getNameUpperFirst()));
+
             }
             sb.append(String.format("\treturn target;\n}")) ;
         }

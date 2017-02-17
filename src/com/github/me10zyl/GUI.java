@@ -2,6 +2,7 @@ package com.github.me10zyl;
 
 import com.github.me10zyl.bussiness.Converter;
 import com.github.me10zyl.entity.ClassProperty;
+import com.github.me10zyl.util.ActionUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,22 +59,6 @@ public class GUI extends JPanel{
         this.add(panel1);
     }
 
-    public void updateData(){
-      /*  for(int i = 0; i < 4 ;i ++){
-            props1.add(new ClassProperty("prop"+i));
-        }
-        for(int i = 0; i < 4 ;i ++){
-            props2.add(new ClassProperty("prop"+i));
-        }*/
-        if(props1.size() > 0){
-            label1.setText(props1.get(0).getPsiClass().getQualifiedName());
-        }
-        if(props2.size() > 0){
-            label2.setText(props2.get(0).getPsiClass().getQualifiedName());
-        }
-        createRow(lpanel, props1);
-        createRow(rpanel, props2);
-    }
 
     private int indexOf(Container parent, MyPanel panel){
         for(int i = 0; i< parent.getComponentCount(); i++){
@@ -85,7 +70,22 @@ public class GUI extends JPanel{
         return -1;
     }
 
-    private void createRow(JPanel panel, List<ClassProperty> props){
+    public void initWorld(){
+        if(props1.size() > 0){
+            label1.setText(props1.get(0).getPsiClass().getQualifiedName());
+        }
+        if(props2.size() > 0){
+            label2.setText(props2.get(0).getPsiClass().getQualifiedName());
+        }
+        updateWorld();
+    }
+
+    public void updateWorld(){
+        _updateUI(lpanel, props1, true);
+        _updateUI(rpanel, props2, false);
+    }
+
+    private void _updateUI(JPanel panel, List<ClassProperty> props, boolean left){
         int i = 0;
         panel.removeAll();
         for(ClassProperty prop : props){
@@ -99,30 +99,39 @@ public class GUI extends JPanel{
             j.add(check1);
             JButton up = new JButton("↑");
             JButton down = new JButton("↓");
+            JButton delete = new JButton("×");
             j.add(up);
             j.add(down);
+            j.add(delete);
             if(prop.isPlaceHolder()){
                 check1.setForeground(Color.RED);
             }
             panel.add(j);
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton b = (JButton) e.getSource();
+                    MyPanel row = (MyPanel) b.getParent();
+                    int index = indexOf(row.getParent(), row);
+                    props.remove(index);
+                    props.add(ActionUtil.newNullProp());
+                    updateWorld();
+                }
+            });
 
             up.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JButton b = (JButton) e.getSource();
                     MyPanel row = (MyPanel) b.getParent();
-
                     int index = indexOf(row.getParent(), row);
                     int current = index - 1;
                     if(current < 0){
                         current = row.getParent().getComponentCount() - 1;
                     }
-
                     props.remove(index);
                     props.add(current, prop);
-
-                    panel.add(row, current);
-                    panel.updateUI();
+                    updateWorld();
                 }
             });
 
@@ -134,13 +143,11 @@ public class GUI extends JPanel{
                     int index = indexOf(row.getParent(), row);
                     int current = index + 1;
                     if(current > row.getParent().getComponentCount() - 1){
-                         current = 0;
+                        current = 0;
                     }
                     props.remove(index);
                     props.add(current, prop);
-
-                    panel.add(row, current);
-                    panel.updateUI();
+                    updateWorld();
                 }
             });
         }
